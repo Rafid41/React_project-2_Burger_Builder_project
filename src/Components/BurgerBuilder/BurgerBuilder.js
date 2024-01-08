@@ -4,6 +4,13 @@ import React, { Component } from "react";
 import Burger from "./Burger/Burger";
 import Controls from "./Controls/Controls";
 
+const INGREDIENT_PRICES = {
+    // variable name state.ingrdient.type er sathe match hote hbe
+    salad: 20,
+    cheese: 40,
+    meat: 90,
+};
+
 export default class BurgerBuilder extends Component {
     state = {
         // ingredients er "type" hbe ingrdients.js er switch-case er case name
@@ -14,11 +21,14 @@ export default class BurgerBuilder extends Component {
             { type: "cheese", amount: 0 },
             { type: "meat", amount: 0 },
         ],
+        totalPrice: 20,
     };
 
     addIngredientHandle = (type) => {
         // copy of state.ingredients
         const ingredients = [...this.state.ingredients];
+
+        const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
 
         // count of amount
         for (let item of ingredients) {
@@ -26,12 +36,14 @@ export default class BurgerBuilder extends Component {
         }
 
         // update state with copied state
-        this.setState({ ingredients: ingredients });
+        this.setState({ ingredients: ingredients, totalPrice: newPrice });
     };
 
     removeIngredientHandle = (type) => {
         // copy of state.ingredients
         const ingredients = [...this.state.ingredients];
+
+        const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
 
         // count of amount
         for (let item of ingredients) {
@@ -42,7 +54,7 @@ export default class BurgerBuilder extends Component {
         }
 
         // update state with copied state
-        this.setState({ ingredients: ingredients });
+        this.setState({ ingredients: ingredients, totalPrice: newPrice });
     };
 
     render() {
@@ -53,6 +65,7 @@ export default class BurgerBuilder extends Component {
                 <Controls
                     ingredientAdded={this.addIngredientHandle}
                     ingredientRemoved={this.removeIngredientHandle}
+                    price={this.state.totalPrice}
                 />
             </div>
         );
