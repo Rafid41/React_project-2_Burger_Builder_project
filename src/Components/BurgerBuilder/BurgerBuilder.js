@@ -16,12 +16,44 @@ export default class BurgerBuilder extends Component {
         ],
     };
 
+    addIngredientHandle = (type) => {
+        // copy of state.ingredients
+        const ingredients = [...this.state.ingredients];
+
+        // count of amount
+        for (let item of ingredients) {
+            if (item.type === type) item.amount++;
+        }
+
+        // update state with copied state
+        this.setState({ ingredients: ingredients });
+    };
+
+    removeIngredientHandle = (type) => {
+        // copy of state.ingredients
+        const ingredients = [...this.state.ingredients];
+
+        // count of amount
+        for (let item of ingredients) {
+            if (item.type === type) {
+                if (item.amount <= 0) return;
+                item.amount--;
+            }
+        }
+
+        // update state with copied state
+        this.setState({ ingredients: ingredients });
+    };
+
     render() {
         return (
             // bootstrap: flexing: big screen e side by side, small e upor nich
             <div className="d-flex flex-md-row flex-column">
                 <Burger ingredients={this.state.ingredients} />
-                <Controls />
+                <Controls
+                    ingredientAdded={this.addIngredientHandle}
+                    ingredientRemoved={this.removeIngredientHandle}
+                />
             </div>
         );
     }
