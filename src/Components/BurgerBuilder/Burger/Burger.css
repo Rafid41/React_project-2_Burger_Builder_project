@@ -1,0 +1,21 @@
+/* src\Components\BurgerBuilder\Burger\Burger.css */
+
+.Burger {
+    width: 100%;
+    margin: auto;
+    height: 350px;
+    overflow-y: scroll; /* pic overflow korle scroll korbe */
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.Burger::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, edge and firefox */
+.Burger {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* firefox */
+}
