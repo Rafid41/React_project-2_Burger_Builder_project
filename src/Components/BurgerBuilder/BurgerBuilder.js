@@ -3,6 +3,8 @@
 import React, { Component } from "react";
 import Burger from "./Burger/Burger";
 import Controls from "./Controls/Controls";
+import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from "reactstrap";
+import Summery from "./Summery/Summery";
 
 const INGREDIENT_PRICES = {
     // variable name state.ingrdient.type er sathe match hote hbe
@@ -22,6 +24,16 @@ export default class BurgerBuilder extends Component {
             { type: "meat", amount: 0 },
         ],
         totalPrice: 20,
+        modalOpen: false,
+        purchasable: false,
+    };
+
+    updatePurchasable = (ingredients) => {
+        const sum = ingredients.reduce((sum, element) => {
+            return sum + element.amount;
+        }, 0); // sum=0, initial value
+
+        this.setState({ purchasable: sum > 0 });
     };
 
     addIngredientHandle = (type) => {
@@ -37,6 +49,7 @@ export default class BurgerBuilder extends Component {
 
         // update state with copied state
         this.setState({ ingredients: ingredients, totalPrice: newPrice });
+        this.updatePurchasable(ingredients);
     };
 
     removeIngredientHandle = (type) => {
@@ -55,18 +68,48 @@ export default class BurgerBuilder extends Component {
 
         // update state with copied state
         this.setState({ ingredients: ingredients, totalPrice: newPrice });
+        this.updatePurchasable(ingredients);
+    };
+
+    toggleModal = () => {
+        this.setState({
+            modalOpen: !this.state.modalOpen,
+        });
     };
 
     render() {
         return (
-            // bootstrap: flexing: big screen e side by side, small e upor nich
-            <div className="d-flex flex-md-row flex-column">
-                <Burger ingredients={this.state.ingredients} />
-                <Controls
-                    ingredientAdded={this.addIngredientHandle}
-                    ingredientRemoved={this.removeIngredientHandle}
-                    price={this.state.totalPrice}
-                />
+            <div>
+                {/* bootstrap: flexing: big screen e side by side, small e upor nich */}
+                <div className="d-flex flex-md-row flex-column">
+                    <Burger ingredients={this.state.ingredients} />
+                    <Controls
+                        ingredientAdded={this.addIngredientHandle}
+                        ingredientRemoved={this.removeIngredientHandle}
+                        price={this.state.totalPrice}
+                        toggleModal={this.toggleModal}
+                        purchasable={this.state.purchasable}
+                    />
+                </div>
+
+                <Modal isOpen={this.state.modalOpen}>
+                    <ModalHeader>Your Order Summery</ModalHeader>
+                    <ModalBody>
+                        {/* toFixed(0) means 0 decimal places */}
+                        <h5>
+                            Total Price: {this.state.totalPrice.toFixed(0)} BDT
+                        </h5>
+                        <Summery ingredients={this.state.ingredients} />
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="success" onClick={this.toggleModal}>
+                            Continue to Checkout
+                        </Button>
+                        <Button color="secondary" onClick={this.toggleModal}>
+                            Cancel
+                        </Button>
+                    </ModalFooter>
+                </Modal>
             </div>
         );
     }
