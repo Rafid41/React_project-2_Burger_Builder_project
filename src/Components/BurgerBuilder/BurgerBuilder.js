@@ -2,6 +2,7 @@
 // this file will handle all logic
 import React, { Component } from "react";
 import Burger from "./Burger/Burger";
+import Controls from "./Controls/Controls";
 
 export default class BurgerBuilder extends Component {
     state = {
@@ -17,8 +18,10 @@ export default class BurgerBuilder extends Component {
 
     render() {
         return (
-            <div>
+            // bootstrap: flexing: big screen e side by side, small e upor nich
+            <div className="d-flex flex-md-row flex-column">
                 <Burger ingredients={this.state.ingredients} />
+                <Controls />
             </div>
         );
     }
