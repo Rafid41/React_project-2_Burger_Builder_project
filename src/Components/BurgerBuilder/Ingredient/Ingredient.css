@@ -1,0 +1,10 @@
+/* src\Components\BurgerBuilder\Ingredient\Ingredient.css */
+
+.Ingredient {
+    text-align: center;
+    margin: 5px;
+}
+
+.Ingredient img {
+    width: 80%;
+}

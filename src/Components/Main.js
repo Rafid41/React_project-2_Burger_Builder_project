@@ -7,7 +7,11 @@ const Main = (props) => {
     return (
         <div>
             <Header />
-            <BurgerBuilder />
+
+            {/* container class left right kisu padding dey */}
+            <div className="container">
+                <BurgerBuilder />
+            </div>
         </div>
     );
 };
