@@ -5,6 +5,7 @@ import Burger from "./Burger/Burger";
 import Controls from "./Controls/Controls";
 import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from "reactstrap";
 import Summery from "./Summery/Summery";
+import { Navigate } from "react-router-dom";
 
 const INGREDIENT_PRICES = {
     // variable name state.ingrdient.type er sathe match hote hbe
@@ -26,6 +27,7 @@ export default class BurgerBuilder extends Component {
         totalPrice: 20,
         modalOpen: false,
         purchasable: false,
+        onCLickCheckout: false,
     };
 
     updatePurchasable = (ingredients) => {
@@ -77,6 +79,12 @@ export default class BurgerBuilder extends Component {
         });
     };
 
+    handleCheckout = () => {
+        this.setState({
+            onCLickCheckout: true,
+        });
+    };
+
     render() {
         return (
             <div>
@@ -102,13 +110,17 @@ export default class BurgerBuilder extends Component {
                         <Summery ingredients={this.state.ingredients} />
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="success" onClick={this.toggleModal}>
+                        <Button color="success" onClick={this.handleCheckout}>
                             Continue to Checkout
                         </Button>
                         <Button color="secondary" onClick={this.toggleModal}>
                             Cancel
                         </Button>
                     </ModalFooter>
+
+                    {this.state.onCLickCheckout && (
+                        <Navigate to="/checkout" replace={true} />
+                    )}
                 </Modal>
             </div>
         );
