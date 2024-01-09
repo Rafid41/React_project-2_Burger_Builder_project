@@ -21,7 +21,7 @@ const Header = () => {
                 </NavbarBrand>
                 <Nav className="mr-md-5">
                     <NavItem>
-                        <NavLink to="#" className="NavLink">
+                        <NavLink to="/" className="NavLink">
                             Burger Builder
                         </NavLink>       
                     </NavItem>
