@@ -2,14 +2,26 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 // import { HistoryRouterProps as history } from "react-router-dom";
+import { connect } from "react-redux";
 
+// axios will be used to upload to database
+import axios from "axios";
+
+// data from redux
+const mapStateToProps = (state) => {
+    return {
+        ingredients: state.ingredients,
+        totalPrice: state.totalPrice,
+        purchasable: state.purchasable,
+    };
+};
 
 class Checkout extends Component {
     state = {
         values: {
             deliveryAddress: "",
             phone: "",
-            paymentType: "Cash On Dlivery",
+            paymentType: "Cash On Delivery",
         },
     };
 
@@ -30,12 +42,37 @@ class Checkout extends Component {
     };
 
     submitHandler = () => {
-        console.log(this.state.values);
+        //  ei object darabase(firebase) e jabe
+        const order = {
+            ingredients: this.props.ingredients,
+            customer: this.state.values,
+            price: this.props.totalPrice,
+            orderTime: new Date(),
+        };
+        // axios.post(link + '/key_name.json', target_obeject_name) ekhane key_name=orders
+        axios
+            .post(
+                "https://burger-builder-c4947-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json",order
+            )
+            .then((response) => console.log(response))
+            .catch((err) => console.log(err));
+
+        console.log(order);
     };
 
     render() {
         return (
             <div>
+                <h4
+                    style={{
+                        border: "1px solid grey",
+                        boxShadow: "1px 1px #888888",
+                        borderShadow: "5px",
+                        padding: "20px",
+                    }}
+                >
+                    Payment: {this.props.totalPrice} BDT
+                </h4>
                 <form
                     style={{
                         border: "1px solid grey",
@@ -93,4 +130,5 @@ class Checkout extends Component {
     }
 }
 
-export default Checkout;
+export default connect(mapStateToProps)(Checkout);
+// export default Checkout;
