@@ -14,8 +14,9 @@ class Checkout extends Component {
     };
 
     goBack = () => {
+        //error here
         // router_property, router history
-        this.props.history.goBack("/");
+        // this.props.history.goBack("/");
     };
 
     InputChangeHandler = (e) => {
