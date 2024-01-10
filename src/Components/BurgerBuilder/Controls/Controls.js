@@ -78,7 +78,13 @@ const Controls = (props) => {
                         Price: <strong>{props.price}</strong> BDT
                     </h5>
                 </CardFooter>
-                <Button disabled={!props.purchasable} onClick={props.toggleModal}>Order Now</Button>
+                <Button
+                    disabled={!props.purchasable}
+                    style={{ backgroundColor: "#D70F64" }}
+                    onClick={props.toggleModal}
+                >
+                    Order Now
+                </Button>
             </Card>
         </div>
     );
