@@ -164,7 +164,7 @@ class Checkout extends Component {
                         onClick={this.goBack}
                     >
                         Cancel
-                    </Button>
+                    </Button>  
                 </form>
             </div>
         );
