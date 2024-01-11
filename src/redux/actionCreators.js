@@ -52,5 +52,8 @@ export const fetchOrders = () => (dispatch) => {
         .then((response) => {
             //load order to redux
             dispatch(loadOrders(response.data));
+        })
+        .catch((err) => {
+            dispatch(orderedLoadFailed());
         });
 };

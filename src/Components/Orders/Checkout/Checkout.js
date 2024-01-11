@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 
 // axios will be used to upload to database
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 // data from redux
 const mapStateToProps = (state) => {
@@ -37,11 +38,13 @@ class Checkout extends Component {
         modalMsg: "",
     };
 
-    goBack = () => {
-        //error here
-        // router_property, router history
-        //  this.props.history.goBack("/");
-    };
+    // goBack = () => {
+    //     //error here
+    //     // router_property, router history
+    //     //  this.props.history.goBack("/");
+    //     const { history } = this.props;
+    //     history.push("/");
+    // };
 
     InputChangeHandler = (e) => {
         this.setState({
@@ -158,13 +161,15 @@ class Checkout extends Component {
                     >
                         Place Order
                     </Button>
-                    <Button
-                        color="secondary"
-                        className="ml-1"
-                        onClick={this.goBack}
-                    >
-                        Cancel
-                    </Button>  
+                    <Link to="/">
+                        <Button
+                            color="secondary"
+                            className="ml-1"
+                            // onClick={this.goBack}
+                        >
+                            Cancel
+                        </Button>
+                    </Link>
                 </form>
             </div>
         );
@@ -173,9 +178,18 @@ class Checkout extends Component {
         return (
             <div>
                 {this.state.isLoading ? <Spinner /> : form}
-                <Modal isOpen={this.state.isModalOpen} onClick={this.goBack}>
+
+                <Modal
+                    isOpen={this.state.isModalOpen}
+                    //onClick={this.goBack}
+                >
                     <ModalBody>
                         <p>{this.state.modalMsg}</p>
+                        <p>
+                            <Link to="/">
+                                <Button color="primary" className="ml-auto">Ok</Button>
+                            </Link>
+                        </p>
                     </ModalBody>
                 </Modal>
             </div>

@@ -15,7 +15,7 @@ const INITIAL_STATE = {
         { type: "meat", amount: 0 },
     ],
     orders: [],
-    orderLoading: false,
+    orderLoading: true,
     orderErr: false,
     totalPrice: 20,
     purchasable: false,
@@ -83,13 +83,20 @@ export const reducer = (state = INITIAL_STATE, action) => {
                 orders.push({
                     ...action.payload[key],
                     id: key, //eta unique key generate korbe oi order k access korar jnno
-                })
+                });
             }
-          
+
             return {
                 ...state,
                 orders: orders,
-                orderLoading:false,
+                orderLoading: false,
+            };
+
+        case actionTypes.ORDER_LOAD_FAILED:
+            return {
+                ...state,
+                orderErr: true,
+                orderLoading: false,
             };
 
         default:
