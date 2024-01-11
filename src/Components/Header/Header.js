@@ -1,9 +1,10 @@
 // src\Components\Header\Header.js
+// Navigation bar
 import React from "react";
 import { Navbar, NavbarBrand, Nav, NavItem } from "reactstrap";
 import "./Header.css";
 import Logo from "../../assets/logo.png";
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
     return (
@@ -23,12 +24,17 @@ const Header = () => {
                     <NavItem>
                         <NavLink to="/" className="NavLink">
                             Burger Builder
-                        </NavLink>       
+                        </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink to="/orders" className="NavLink">
                             Orders
-                        </NavLink>       
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink to="/login" className="NavLink">
+                            Login
+                        </NavLink>
                     </NavItem>
                 </Nav>
             </Navbar>
