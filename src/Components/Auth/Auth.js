@@ -1,6 +1,17 @@
 // src\Components\Auth\Auth.js
 import React, { Component } from "react";
 import { Formik } from "formik";
+import { auth } from "../../redux/authActionCreators";
+import { connect } from "react-redux";
+
+// eta authActionCreators e dispatch korbe
+const mapDispatchToProps = (dispatch) => {
+    return {
+        auth: (email, password, mode) => dispatch(auth(email, password, mode))
+    }
+}
+
+
 
 class Auth extends Component {
     //same form for login and sign up
@@ -26,7 +37,7 @@ class Auth extends Component {
                         }
                     }
                     onSubmit={(values) => {
-                        console.log(values);
+                        this.props.auth(values.email, values.password,this.state.mode);
                     }}
                     //==================== validation ==================//
                     // for validation, built in props
@@ -158,4 +169,6 @@ class Auth extends Component {
     }
 }
 
-export default Auth;
+// connect with redux
+// structure connect(mapStateToProps, mapDispatchToProps)(Component_Class_name/fn_name)
+export default connect(null, mapDispatchToProps)(Auth);
