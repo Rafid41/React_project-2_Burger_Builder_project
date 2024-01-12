@@ -19,6 +19,10 @@ const INITIAL_STATE = {
     orderErr: false,
     totalPrice: 20,
     purchasable: false,
+    // store firebase token and user id
+    // authActionCreaters.js theke dispatch hye nicher switchcase giye hit korle ekhan theke update hbe
+    token: null,
+    userId: null, // null means user is not authenticated
 };
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -98,6 +102,14 @@ export const reducer = (state = INITIAL_STATE, action) => {
                 orderErr: true,
                 orderLoading: false,
             };
+        
+        // AUTH cases:
+        case actionTypes.AUTH_SUCCESS:
+            return {
+                ...state,
+                token: action.payload.token,
+                userId: action.payload.userId,
+            }
 
         default:
             return state;
