@@ -40,6 +40,11 @@ const Header = (props) => {
                         Orders
                     </NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink to="/logout" className="NavLink">
+                        Logout
+                    </NavLink>
+                </NavItem>
             </Nav>
         );
     }

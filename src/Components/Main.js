@@ -8,6 +8,7 @@ import Checkout from "./Orders/Checkout/Checkout";
 import Auth from "./Auth/Auth";
 import { connect } from "react-redux";
 import { authCheck } from "../redux/authActionCreators";
+import Logout from "./Auth/Logout";
 
 const mapStateToProps = (state) => {
     return {
@@ -48,6 +49,7 @@ class Main extends Component {
                     <Route path="/" element={<BurgerBuilder />} />
                     <Route path="/orders" element={<Orders />} />
                     <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/logout" element={<Logout />} />
                     {/* kono kisur sathe match na hole "/" */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>

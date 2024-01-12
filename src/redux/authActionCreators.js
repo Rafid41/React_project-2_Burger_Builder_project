@@ -52,24 +52,35 @@ export const auth = (email, password, mode) => (dispatch) => {
     });
 };
 
+//auto logout actions for auth token
+export const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expirationTime");
+    localStorage.removeItem("userId");
+
+    return {
+        type: actionTypes.AUTH_LOGOUT,
+    };
+};
+
 // app load holei eta call korte hbe Main.js theke
 export const authCheck = () => (dispatch) => {
-    const token = localStorage.getItem('token');
-    
+    const token = localStorage.getItem("token");
+
     if (!token) {
         // token na thakle logout
-
+        dispatch(logout());
     } else {
         // string return kore, new Date() oitake dateTime e convert kore
-        const expirationTime = new Date(localStorage.getItem('expirationTime'));
-        
+        const expirationTime = new Date(localStorage.getItem("expirationTime"));
+
         // time expire kina chk
         if (expirationTime <= new Date()) {
             //logout
+            dispatch(logout());
         } else {
-            const userId = localStorage.getItem('userId');
+            const userId = localStorage.getItem("userId");
             dispatch(authSuccess(token, userId));
         }
     }
-}
-
+};
