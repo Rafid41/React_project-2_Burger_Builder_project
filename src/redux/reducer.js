@@ -122,6 +122,7 @@ export const reducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 token: null,
                 userId: null,
+                authFailedMsg: null,
             };
 
         case actionTypes.AUTH_LOADING:
