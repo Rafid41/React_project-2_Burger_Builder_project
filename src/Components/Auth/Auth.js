@@ -3,15 +3,21 @@ import React, { Component } from "react";
 import { Formik } from "formik";
 import { auth } from "../../redux/authActionCreators";
 import { connect } from "react-redux";
+import Spinner from "../Spinner/Spinner";
 
 // eta authActionCreators e dispatch korbe
 const mapDispatchToProps = (dispatch) => {
     return {
-        auth: (email, password, mode) => dispatch(auth(email, password, mode))
-    }
-}
+        auth: (email, password, mode) => dispatch(auth(email, password, mode)),
+    };
+};
 
-
+const mapStateToProps = (state) => {
+    return {
+        authLoading: state.authLoading,
+        authFailedMsg: state.authFailedMsg,
+    };
+};
 
 class Auth extends Component {
     //same form for login and sign up
@@ -25,8 +31,11 @@ class Auth extends Component {
         });
     };
     render() {
-        return (
-            <div>
+        let form = null;
+        if (this.props.authLoading) {
+            form = <Spinner />;
+        } else {
+            form = (
                 <Formik
                     initialValues={
                         // j field gulo thakbe auth page e
@@ -37,7 +46,11 @@ class Auth extends Component {
                         }
                     }
                     onSubmit={(values) => {
-                        this.props.auth(values.email, values.password,this.state.mode);
+                        this.props.auth(
+                            values.email,
+                            values.password,
+                            this.state.mode
+                        );
                     }}
                     //==================== validation ==================//
                     // for validation, built in props
@@ -69,8 +82,11 @@ class Auth extends Component {
                         if (this.state.mode === "Sign Up") {
                             if (!values.passwordConfirm) {
                                 errors.passwordConfirm = "Required";
-                            } else if (values.password !== values.passwordConfirm) {
-                                errors.passwordConfirm = "Password field does not match";
+                            } else if (
+                                values.password !== values.passwordConfirm
+                            ) {
+                                errors.passwordConfirm =
+                                    "Password field does not match";
                             }
                         }
 
@@ -164,11 +180,13 @@ class Auth extends Component {
                         </div>
                     )}
                 </Formik>
-            </div>
-        );
+            );
+        }
+
+        return <div>{form}</div>;
     }
 }
 
 // connect with redux
 // structure connect(mapStateToProps, mapDispatchToProps)(Component_Class_name/fn_name)
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

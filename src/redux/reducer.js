@@ -1,5 +1,6 @@
 // src\redux\reducer.js
 import * as actionTypes from "./actionTypes";
+import { authLoading } from "./authActionCreators";
 
 const INGREDIENT_PRICES = {
     salad: 20,
@@ -23,6 +24,10 @@ const INITIAL_STATE = {
     // authActionCreaters.js theke dispatch hye nicher switchcase giye hit korle ekhan theke update hbe
     token: null,
     userId: null, // null means user is not authenticated
+    // for auth spinner
+    authLoading: false,
+    // for auth error
+    authFailedMsg: null,
 };
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -117,6 +122,13 @@ export const reducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 token: null,
                 userId: null,
+            };
+
+        case actionTypes.AUTH_LOADING:
+            
+            return {
+                ...state,            
+                authLoading: action.payload,
             };
 
         default:

@@ -1,5 +1,4 @@
 // src\redux\authActionCreators.js
-
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 
@@ -15,7 +14,16 @@ export const authSuccess = (token, userId) => {
     };
 };
 
+export const authLoading = (isLoading) => {
+    return {
+        type: actionTypes.AUTH_LOADING,
+        payload: isLoading,
+    };
+};
+
 export const auth = (email, password, mode) => (dispatch) => {
+    dispatch(authLoading(true)); // true ta payLoad hisebe pass hbe
+
     const authData = {
         email: email,
         password: password,
@@ -35,21 +43,28 @@ export const auth = (email, password, mode) => (dispatch) => {
     // this is default link for post
     // API key from Firebase -> settings -> project settings-> web API Key
     const API_KEY = "AIzaSyDN2gmwm58m8nJ7ayGgaUK5LD1JQwc2AOw";
-    axios.post(authUrl + API_KEY, authData).then((response) => {
-        // set token in browsers local storage
-        localStorage.setItem("token", response.data.idToken);
-        localStorage.setItem("userId", response.data.localId);
+    axios
+        .post(authUrl + API_KEY, authData)
+        .then((response) => {
+            dispatch(authLoading(false));
+            // set token in browsers local storage
+            localStorage.setItem("token", response.data.idToken);
+            localStorage.setItem("userId", response.data.localId);
 
-        // new Date().getTime() return kore current time in milliseconds
-        // response.data.expiresIn return kore second e, tai 1000 multiply kora hoise
-        // eta abar Date e convert hbe
-        const expirationTime = new Date(
-            new Date().getTime() + response.data.expiresIn * 1000
-        );
-        localStorage.setItem("expirationTime", expirationTime);
+            // new Date().getTime() return kore current time in milliseconds
+            // response.data.expiresIn return kore second e, tai 1000 multiply kora hoise
+            // eta abar Date e convert hbe
+            const expirationTime = new Date(
+                new Date().getTime() + response.data.expiresIn * 1000
+            );
+            localStorage.setItem("expirationTime", expirationTime);
 
-        dispatch(authSuccess(response.data.idToken, response.data.localId));
-    });
+            dispatch(authSuccess(response.data.idToken, response.data.localId));
+        })
+        .catch((err) => {
+            dispatch(authLoading(false));
+            console.log(err);
+        });
 };
 
 //auto logout actions for auth token
