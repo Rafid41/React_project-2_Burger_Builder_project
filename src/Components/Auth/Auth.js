@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import { auth } from "../../redux/authActionCreators";
 import { connect } from "react-redux";
 import Spinner from "../Spinner/Spinner";
+import { Alert } from "reactstrap";
 
 // eta authActionCreators e dispatch korbe
 const mapDispatchToProps = (dispatch) => {
@@ -31,6 +32,11 @@ class Auth extends Component {
         });
     };
     render() {
+        let error = null;
+        if (this.props.authFailedMsg !== null) {
+            error = <Alert color="danger">{this.props.authFailedMsg}</Alert>;
+        }
+
         let form = null;
         if (this.props.authLoading) {
             form = <Spinner />;
@@ -183,7 +189,12 @@ class Auth extends Component {
             );
         }
 
-        return <div>{form}</div>;
+        return (
+            <div>
+                {error}
+                {form}
+            </div>
+        );
     }
 }
 
