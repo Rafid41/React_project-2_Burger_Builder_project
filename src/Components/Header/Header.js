@@ -32,7 +32,7 @@ const Header = (props) => {
             <Nav className="mr-md-5">
                 <NavItem>
                     <NavLink to="/" className="NavLink">
-                        Burger Builder
+                        Burger-Builder
                     </NavLink>
                 </NavItem>
                 <NavItem>

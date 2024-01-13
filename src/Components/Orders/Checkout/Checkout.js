@@ -16,6 +16,8 @@ const mapStateToProps = (state) => {
         ingredients: state.ingredients,
         totalPrice: state.totalPrice,
         purchasable: state.purchasable,
+        userId: state.userId,
+        token: state.token,
     };
 };
 
@@ -66,11 +68,13 @@ class Checkout extends Component {
             customer: this.state.values,
             price: this.props.totalPrice,
             orderTime: new Date(),
+            userId: this.props.userId,
         };
         // axios.post(link + '/key_name.json', target_obeject_name) ekhane key_name=orders
         axios
             .post(
-                "https://burger-builder-c4947-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json",
+                "https://burger-builder-c4947-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json?auth=" +
+                    this.props.token,
                 order
             )
             .then((response) => {
@@ -187,7 +191,9 @@ class Checkout extends Component {
                         <p>{this.state.modalMsg}</p>
                         <p>
                             <Link to="/">
-                                <Button color="primary" className="ml-auto">Ok</Button>
+                                <Button color="primary" className="ml-auto">
+                                    Ok
+                                </Button>
                             </Link>
                         </p>
                     </ModalBody>

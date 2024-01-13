@@ -44,10 +44,14 @@ export const orderedLoadFailed = () => {
 };
 
 // dispatch above 2 fn
-export const fetchOrders = () => (dispatch) => {
+// firebase auth token for secure viewing order history
+export const fetchOrders = (token, userId) => (dispatch) => {
+    //'&orderBy=userId' er 'userId' string firebase database er 'userId' column_name
+    const queryParams = '&orderBy="userId"&equalTo="' + userId + '"';
+    //don't use tabnine here
     axios
         .get(
-            "https://burger-builder-c4947-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json"
+            'https://burger-builder-c4947-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json?auth=' + token + queryParams
         )
         .then((response) => {
             //load order to redux
